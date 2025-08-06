@@ -17,14 +17,35 @@ def analyze_pdf():
     coverage_results = []
 
     for idx, img in enumerate(images):
-        img = img.convert("L")  # grayscale
+        img = img.convert("RGB")
         pixels = img.getdata()
         total_pixels = len(pixels)
-        dark_pixels = sum(1 for p in pixels if p < 250)  # not white
-        coverage = round((dark_pixels / total_pixels) * 100, 2)
+
+        total_ink_intensity = 0
+
+        for r, g, b in pixels:
+            # Calculamos la "intensidad de tinta" estimada: 1 - brillo promedio
+            intensity = 1 - ((r + g + b) / (255 * 3))
+            total_ink_intensity += intensity
+
+        avg_ink_usage = round((total_ink_intensity / total_pixels) * 100, 2)
+
+        # Clasificación
+        if avg_ink_usage < 10:
+            nivel = "Muy bajo"
+        elif avg_ink_usage < 30:
+            nivel = "Bajo"
+        elif avg_ink_usage < 60:
+            nivel = "Medio"
+        elif avg_ink_usage < 90:
+            nivel = "Alto"
+        else:
+            nivel = "Muy alto"
+
         coverage_results.append({
             'page': idx + 1,
-            'coverage_percent': coverage
+            'ink_coverage_percent': avg_ink_usage,
+            'nivel': nivel
         })
 
     return render_template('result.html', results=coverage_results)
