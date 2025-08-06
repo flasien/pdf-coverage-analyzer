@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Resultados</title>
+</head>
+<body>
+  <h1>Resultado de Cobertura</h1>
+  <ul>
+    {% for page in results %}
+      <li>Página {{ page.page }}: {{ page.coverage_percent }}%</li>
+    {% endfor %}
+  </ul>
+  <a href="/">Volver</a>
+</body>
+</html>
