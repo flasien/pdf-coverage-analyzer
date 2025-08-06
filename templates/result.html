@@ -2,15 +2,22 @@
 <html>
 <head>
   <title>Resultados</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1 { color: #333; }
+    .result { margin-bottom: 10px; padding: 10px; border-left: 5px solid #3d5681; background: #f3f3f3; }
+    .nivel { font-weight: bold; }
+  </style>
 </head>
 <body>
-  <h1>Resultado de Cobertura</h1>
-  <ul>
-    {% for page in results %}
-      <li>Página {{ page.page }}: {{ page.coverage_percent }}%</li>
-    {% endfor %}
-  </ul>
-  <a href="/">Volver</a>
+  <h1>Resultado de Cobertura de Tinta</h1>
+  {% for page in results %}
+    <div class="result">
+      PÃ¡gina {{ page.page }}:<br>
+      Cobertura estimada: <strong>{{ page.ink_coverage_percent }}%</strong><br>
+      ClasificaciÃ³n: <span class="nivel">{{ page.nivel }}</span>
+    </div>
+  {% endfor %}
+  <a href="/">ðŸ”™ Volver a subir otro PDF</a>
 </body>
 </html>
-
